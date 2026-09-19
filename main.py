@@ -66,6 +66,7 @@ class Viewport(QOpenGLWidget):
         )
 
         self.draw_axes()
+        self.draw_cube()
 
     def draw_axes(self):
         glLineWidth(2.0)
@@ -83,6 +84,46 @@ class Viewport(QOpenGLWidget):
         glColor3f(0.0, 0.0, 1.0)
         glVertex3f(0.0, 0.0, -3.0)
         glVertex3f(0.0, 0.0, 3.0)
+
+        glEnd()
+
+    def draw_cube(self):
+        vertices = [
+            (-1, -1, -1),
+            (1, -1, -1),
+            (1, 1, -1),
+            (-1, 1, -1),
+            (-1, -1, 1),
+            (1, -1, 1),
+            (1, 1, 1),
+            (-1, 1, 1)
+        ]
+
+        faces = [
+            (0, 1, 2, 3),
+            (4, 5, 6, 7),
+            (0, 1, 5, 4),
+            (2, 3, 7, 6),
+            (0, 3, 7, 4),
+            (1, 2, 6, 5)
+        ]
+
+        colors = [
+            (1.0, 0.0, 0.0),
+            (0.0, 1.0, 0.0),
+            (0.0, 0.0, 1.0),
+            (1.0, 1.0, 0.0),
+            (1.0, 0.0, 1.0),
+            (0.0, 1.0, 1.0)
+        ]
+
+        glBegin(GL_QUADS)
+
+        for i, face in enumerate(faces):
+            glColor3f(*colors[i])
+
+            for vertex in face:
+                glVertex3f(*vertices[vertex])
 
         glEnd()
 
